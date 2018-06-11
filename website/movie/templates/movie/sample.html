@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>movie list</title>
+</head>
+<body>
+list of movies
+<ul>
+{%for movie in movie_list %}
+<p><li>{{movie.movie.name}}</li></p>
+<p><li>{{movie.songname}}</li></p>
+{% endfor %}
+</ul>
+</body>
+</html>
