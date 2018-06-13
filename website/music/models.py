@@ -20,7 +20,7 @@ class song(models.Model):
     album = models.ForeignKey( movielist, on_delete=models.CASCADE )
     song_name = models.CharField(max_length=200)
     artist = models.CharField(max_length=200)
-    song_location = models.FileField(max_length=200)
+    song_location = models.FileField(upload_to="")
 
     def __str__(self):
         return self.song_name

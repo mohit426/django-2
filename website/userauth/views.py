@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import forms
 from . import models
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 def signup(request):
@@ -21,3 +22,22 @@ def signup(request):
 	else:
 		form = forms.Register()
 	return render(request,'userauth/signup.html',{'form' : form})
+def login_user(request):
+    if request.user.is_authenticated:
+        return HttpResponse("u r already logged in")
+    else:
+        if request.method == 'POST':
+            username =request.POST['username']
+            password =request.POST['password']
+            user = authenticate(username=username,password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    # redirect to music list page
+                    return redirect('/music/list/')
+                else: 
+                    return render(request, 'userauth/login.html', {'err': 'your account is banned'})
+            else:
+                return render(request, 'userauth/login.html', {'err': 'wrong credentials provided'})
+        else:
+            return render(request, 'userauth/login.html', {'err' : ''})
